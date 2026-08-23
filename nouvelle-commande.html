@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nouvelle commande — Bisave</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="shell">
+
+  <aside class="sidebar">
+    <div class="sidebar__brand">
+      <span class="sidebar__mark">BV</span>
+      <span class="sidebar__name">Bisave</span>
+    </div>
+
+    <nav class="sidebar__nav">
+      <a href="index.html" class="nav-item">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 9L8 3L14 9M4 7.5V13.5H12V7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Aujourd'hui
+      </a>
+      <a href="nouvelle-commande.html" class="nav-item is-active">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2V14M2 8H14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        Nouvelle commande
+      </a>
+      <span class="nav-item is-soon">Clients<span class="nav-item__tag">Bientôt</span></span>
+      <span class="nav-item is-soon">Statistiques<span class="nav-item__tag">Bientôt</span></span>
+    </nav>
+
+    <div class="sidebar__footer">
+      <div class="sidebar__user">
+        <span class="sidebar__avatar">—</span>
+        <div>
+          <div class="sidebar__user-name">Mon commerce</div>
+          <div class="sidebar__user-role">Compte non configuré</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="content">
+    <div class="content__topbar">
+      <h1>Nouvelle commande</h1>
+      <div class="topbar__actions">
+        <a href="index.html" class="btn btn--ghost">Annuler</a>
+      </div>
+    </div>
+
+    <div class="content__body">
+      <div class="wizard">
+        <div class="wizard__steps">
+          <div class="wizard__step is-active" data-step="1">1. Client</div>
+          <div class="wizard__step" data-step="2">2. Produit</div>
+          <div class="wizard__step" data-step="3">3. Quantité</div>
+          <div class="wizard__step" data-step="4">4. Confirmer</div>
+        </div>
+
+        <div class="wizard__body">
+
+          <!-- ETAPE 1 -->
+          <div class="wizard__panel is-active" data-panel="1">
+            <label class="field">
+              <span class="field__label">Rechercher un client</span>
+              <input type="text" id="client-search" placeholder="Nom ou numéro de téléphone">
+            </label>
+            <div class="client-list" id="client-list"></div>
+            <button type="button" class="btn btn--ghost" id="show-new-client">+ Nouveau client</button>
+            <div id="new-client-form" style="margin-top:14px; display:none;">
+              <label class="field">
+                <span class="field__label">Nom du client</span>
+                <input type="text" id="new-client-name" placeholder="Ex. Fatou Diop">
+              </label>
+              <label class="field">
+                <span class="field__label">Téléphone</span>
+                <input type="tel" id="new-client-phone" placeholder="77 000 00 00">
+              </label>
+            </div>
+          </div>
+
+          <!-- ETAPE 2 -->
+          <div class="wizard__panel" data-panel="2">
+            <div class="product-grid" id="product-grid"></div>
+            <button type="button" class="btn btn--ghost" id="show-custom-product">+ Produit hors liste</button>
+            <div id="custom-product-form" style="margin-top:14px; display:none;">
+              <label class="field">
+                <span class="field__label">Nom du produit</span>
+                <input type="text" id="custom-product-name" placeholder="Ex. Robe wax">
+              </label>
+              <label class="field">
+                <span class="field__label">Prix unitaire (FCFA)</span>
+                <input type="number" id="custom-product-price" placeholder="15000">
+              </label>
+            </div>
+          </div>
+
+          <!-- ETAPE 3 -->
+          <div class="wizard__panel" data-panel="3">
+            <div class="qty-row">
+              <button type="button" class="qty-btn" id="qty-minus">−</button>
+              <span class="qty-value" id="qty-value">1</span>
+              <button type="button" class="qty-btn" id="qty-plus">+</button>
+            </div>
+            <div class="total-line"><span>Total</span><strong id="total-value">0 FCFA</strong></div>
+          </div>
+
+          <!-- ETAPE 4 -->
+          <div class="wizard__panel" data-panel="4">
+            <div class="recap">
+              <div class="recap__row"><span>Client</span><strong id="recap-client">—</strong></div>
+              <div class="recap__row"><span>Produit</span><strong id="recap-product">—</strong></div>
+              <div class="recap__row"><span>Quantité</span><strong id="recap-qty">—</strong></div>
+              <div class="recap__row"><span>Total</span><strong class="total" id="recap-total">—</strong></div>
+            </div>
+            <label class="field">
+              <span class="field__label">Note (facultatif)</span>
+              <input type="text" id="recap-note" placeholder="Ex. à livrer avant vendredi">
+            </label>
+          </div>
+
+        </div>
+
+        <div class="wizard__footer">
+          <button type="button" class="btn btn--ghost" id="step-back" disabled>Retour</button>
+          <button type="button" class="btn btn--primary" id="step-next">Continuer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast" hidden>
+  <span class="toast__mark">✓</span>
+  <span id="toast-text">Commande enregistrée</span>
+</div>
+
+<script src="app.js"></script>
+<script>initOrderWizard();</script>
+</body>
+</html>
